@@ -12,7 +12,7 @@ description: >
 
 # Review Pull Request
 
-Review GitHub pull requests for the `mffcosta16/switch-dev-ai-workshop` repository.
+Review GitHub pull requests for the `marianacosta16/switch-dev-ai-workshop` repository.
 The goal is to give the user a clear, actionable summary so they can approve,
 request changes, or discuss with confidence.
 
