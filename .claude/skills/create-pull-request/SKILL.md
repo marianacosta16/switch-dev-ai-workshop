@@ -11,7 +11,7 @@ description: >
 
 # Create Pull Request
 
-Create GitHub pull requests for the `mffcosta16/switch-dev-ai-workshop` repository
+Create GitHub pull requests for the `marianacosta16/switch-dev-ai-workshop` repository
 with a standardized title format that references the related issue number.
 
 ## Workflow

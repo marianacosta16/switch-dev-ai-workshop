@@ -10,7 +10,7 @@ description: >
 
 # Create GitHub issue
 
-Create GitHub issues for the `mffcosta16/switch-dev-ai-workshop` repository using a structured
+Create GitHub issues for the `marianacosta16/switch-dev-ai-workshop` repository using a structured
 feature request template that matches the project's existing issue style.
 
 ## Workflow
@@ -31,7 +31,7 @@ Before creating, search for similar existing issues:
 
 ```
 Use mcp__github__search_issues with:
-  owner: mffcosta16
+  owner: marianacosta16
   repo: switch-dev-ai-workshop
   query: <keywords from the user's request>
 ```
@@ -39,7 +39,7 @@ Use mcp__github__search_issues with:
 If the MCP tool is unavailable, fall back to the `gh` CLI:
 
 ```bash
-gh search issues --repo mffcosta16/switch-dev-ai-workshop "<keywords>"
+gh search issues --repo marianacosta16/switch-dev-ai-workshop "<keywords>"
 ```
 
 If potential duplicates are found, show them to the user with their title, number, and state.
@@ -87,7 +87,7 @@ Try the MCP tool first:
 ```
 Use mcp__github__issue_write with:
   method: create
-  owner: mffcosta16
+  owner: marianacosta16
   repo: switch-dev-ai-workshop
   title: <the issue title>
   body: <the formatted body>
@@ -98,7 +98,7 @@ If the MCP tool fails (e.g., token permissions), fall back to the `gh` CLI:
 
 ```bash
 gh issue create \
-  --repo mffcosta16/switch-dev-ai-workshop \
+  --repo marianacosta16/switch-dev-ai-workshop \
   --title "<title>" \
   --label "enhancement" \
   --body "<body>"
