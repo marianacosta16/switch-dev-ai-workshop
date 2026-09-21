@@ -1,6 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import { extractText, getDocumentProxy } from "unpdf";
 import { chunkPage, CHUNK_SIZE_WORDS, CHUNK_OVERLAP_WORDS, type Chunk } from "./chunk.ts";
+import { embedChunks, EMBEDDING_MODEL, type EmbeddedChunk } from "./embed.ts";
 
 const DOCS_DIR = "docs";
 
@@ -35,7 +36,7 @@ export async function ingestFile(file: string): Promise<Chunk[]> {
   return chunks;
 }
 
-export async function ingestAll(): Promise<Chunk[]> {
+export async function ingestAll(): Promise<EmbeddedChunk[]> {
   const files = (await readdir(DOCS_DIR)).filter((f) => f.toLowerCase().endsWith(".pdf"));
 
   if (files.length === 0) {
@@ -53,7 +54,13 @@ export async function ingestAll(): Promise<Chunk[]> {
   const words = chunks.reduce((total, chunk) => total + countWords(chunk.text), 0);
   console.log(`Total: ${chunks.length} chunks, ~${words} words`);
 
-  return chunks;
+  console.log(`Embedding with ${EMBEDDING_MODEL}:`);
+  const startedAt = Date.now();
+  const embedded = await embedChunks(chunks);
+  const seconds = ((Date.now() - startedAt) / 1000).toFixed(1);
+  console.log(`  ${embedded.length} vectors of ${embedded[0]?.vector.length ?? 0} dimensions in ${seconds}s`);
+
+  return embedded;
 }
 
 // Only run when this file is the entry point (npm run ingest), not when imported.
