@@ -56,4 +56,7 @@ export async function ingestAll(): Promise<Chunk[]> {
   return chunks;
 }
 
-await ingestAll();
+// Only run when this file is the entry point (npm run ingest), not when imported.
+if (import.meta.main) {
+  await ingestAll();
+}
