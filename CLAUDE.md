@@ -22,7 +22,7 @@ AI workshop demo app: React 19 frontend + Express 5 backend, plus a standalone s
 - **Frontend (`src/`):** React 19 SPA, no router. Uses shadcn/ui (base-nova preset on `@base-ui/react`), Tailwind CSS v4, and Vite.
 - **Backend (`server/index.ts`):** Minimal Express 5 server. Port configurable via `SERVER_PORT` env var (default 3001).
 - **API proxy:** Vite proxies `/api/*` to `http://localhost:3001` in dev.
-- **RAG (`server/rag/`):** `chunk.ts` splits page text into overlapping chunks; `ingest.ts` reads `docs/*.pdf` (git-ignored) via `unpdf`. Chunks never span pages, so citations keep an exact page number. Tunable constants: `CHUNK_SIZE_WORDS`, `CHUNK_OVERLAP_WORDS`, `MIN_PAGE_WORDS` — see the README for the rationale.
+- **RAG (`server/rag/`):** `chunk.ts` splits page text into overlapping chunks; `ingest.ts` reads `docs/*.pdf` (git-ignored) via `unpdf`. Chunks never span pages, so citations keep an exact page number. `embed.ts` turns chunks into 384-dimension normalised vectors with a local Hugging Face model (weights cached in `.cache/models/`, git-ignored; no API key, nothing leaves the machine). The same model must embed chunks and questions. Tunable constants: `CHUNK_SIZE_WORDS`, `CHUNK_OVERLAP_WORDS`, `MIN_PAGE_WORDS`, `EMBEDDING_MODEL` — see the README for the rationale.
 - **Path alias:** `@/*` maps to `./src/*` (configured in both vite.config.ts and tsconfig.app.json).
 
 ## Styling
