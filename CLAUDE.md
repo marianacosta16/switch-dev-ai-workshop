@@ -15,7 +15,7 @@ AI workshop demo app: React 19 frontend + Express 5 backend, plus a standalone s
 - **Lint:** `npm run lint` — uses oxlint (not ESLint)
 - **Preview prod build:** `npm run preview`
 - **Ingest documents:** `npm run ingest` — reads the PDFs in `docs/` and splits them into chunks for the RAG feature
-- **No test framework is configured.**
+- **Test:** `npm test` — runs Vitest once (`npx vitest` for watch mode). Unit tests sit next to the code they cover, e.g. `server/rag/chunk.test.ts`.
 
 ## Architecture
 

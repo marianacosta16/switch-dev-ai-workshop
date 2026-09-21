@@ -8,6 +8,7 @@ A web application built with React, Tailwind CSS, shadcn/ui, and Express.
 - **Styling:** Tailwind CSS v4
 - **Component Library:** shadcn/ui (base-nova preset)
 - **Backend:** Node.js with Express 5
+- **Testing:** Vitest (unit tests)
 - **Language:** TypeScript throughout
 
 ## Project Structure
@@ -63,7 +64,15 @@ A web application built with React, Tailwind CSS, shadcn/ui, and Express.
    npm run dev:backend    # Express server only
    ```
 
-3. **Build for production:**
+3. **Run the tests:**
+
+   ```bash
+   npm test
+   ```
+
+   Unit tests run with [Vitest](https://vitest.dev/) and live next to the code they cover (for example `server/rag/chunk.test.ts`). `npm test` runs the suite once; `npx vitest` keeps it running in watch mode while you work.
+
+4. **Build for production:**
 
    ```bash
    npm run build
