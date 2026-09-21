@@ -14,6 +14,7 @@ AI workshop demo app: React 19 frontend + Express 5 backend, plus a standalone s
 - **Build:** `npm run build` — type-checks then produces production build
 - **Lint:** `npm run lint` — uses oxlint (not ESLint)
 - **Preview prod build:** `npm run preview`
+- **Ingest documents:** `npm run ingest` — reads the PDFs in `docs/` and splits them into chunks for the RAG feature
 - **No test framework is configured.**
 
 ## Architecture
@@ -21,6 +22,7 @@ AI workshop demo app: React 19 frontend + Express 5 backend, plus a standalone s
 - **Frontend (`src/`):** React 19 SPA, no router. Uses shadcn/ui (base-nova preset on `@base-ui/react`), Tailwind CSS v4, and Vite.
 - **Backend (`server/index.ts`):** Minimal Express 5 server. Port configurable via `SERVER_PORT` env var (default 3001).
 - **API proxy:** Vite proxies `/api/*` to `http://localhost:3001` in dev.
+- **RAG (`server/rag/`):** `chunk.ts` splits page text into overlapping chunks; `ingest.ts` reads `docs/*.pdf` (git-ignored) via `unpdf`. Chunks never span pages, so citations keep an exact page number. Tunable constants: `CHUNK_SIZE_WORDS`, `CHUNK_OVERLAP_WORDS`, `MIN_PAGE_WORDS` — see the README for the rationale.
 - **Path alias:** `@/*` maps to `./src/*` (configured in both vite.config.ts and tsconfig.app.json).
 
 ## Styling
