@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Downloaded embedding model weights (re-downloaded on first run)
+.cache
+
 # RAG source documents (keep them local; only the README is tracked)
 docs/*.pdf
 

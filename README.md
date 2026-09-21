@@ -107,6 +107,22 @@ Each chunk keeps its source file and page number, so answers can cite where the 
 
 Chunks never span two pages. This keeps the page number in a citation exact, at the cost of splitting an idea that continues on the next page.
 
+### Embeddings
+
+After chunking, `npm run ingest` turns every chunk into a vector — a list of numbers that represents its meaning, so that chunks about the same topic end up close together and can be found by similarity rather than by keyword.
+
+| Setting | Value | Where | Why |
+| ------- | ----- | ----- | --- |
+| Model | `Xenova/all-MiniLM-L6-v2` | `EMBEDDING_MODEL` in `server/rag/embed.ts` | Small (runs locally, no API key, no document ever leaves the machine) and fast. Mainly English, which matches the documents in `docs/` |
+| Dimensions | 384 | `EMBEDDING_DIMENSIONS` | Fixed by the model |
+| Batch size | 32 chunks | `BATCH_SIZE` in `server/rag/embed.ts` | Embedding every chunk in one call would hold all intermediate tensors in memory at once |
+
+**The same model must embed both the chunks and the question.** Vectors produced by different models are not comparable, so mixing them would make search return essentially random results. That is why `embed()` is shared rather than duplicated.
+
+Model weights are downloaded from Hugging Face on first run (~87 MB) into `.cache/models/`, which is git-ignored. After that, ingestion works offline. Vectors are normalised, so cosine similarity is a plain dot product.
+
+Note: the model truncates input at roughly 256 word pieces, so the tail of a 500-word chunk is not represented in its vector — worth measuring when tuning chunk size.
+
 These values are starting points, not tuned settings. They are meant to be measured and adjusted once the evaluation is in place.
 
 ## Setting Up the GitHub CLI (`gh`)
