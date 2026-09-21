@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# RAG source documents (keep them local; only the README is tracked)
+docs/*.pdf
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

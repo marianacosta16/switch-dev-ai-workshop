@@ -15,13 +15,17 @@ A web application built with React, Tailwind CSS, shadcn/ui, and Express.
 ```
 .
 ├── server/             # Express backend
-│   └── index.ts        # Server entry point with health-check endpoint
+│   ├── index.ts        # Server entry point with health-check endpoint
+│   └── rag/            # Document ingestion for the RAG feature
+│       ├── chunk.ts    # Splits page text into overlapping chunks
+│       └── ingest.ts   # Reads the PDFs in docs/ and builds the chunks
 ├── src/                # React frontend
 │   ├── components/ui/  # shadcn/ui components
 │   ├── lib/            # Utility functions
 │   ├── App.tsx         # Main application component
 │   ├── main.tsx        # React entry point
 │   └── index.css       # Tailwind CSS and theme configuration
+├── docs/               # Source PDFs for the RAG feature (PDFs are git-ignored)
 ├── public/             # Static assets
 ├── index.html          # HTML entry point
 ├── vite.config.ts      # Vite configuration (includes API proxy)
@@ -70,6 +74,31 @@ A web application built with React, Tailwind CSS, shadcn/ui, and Express.
 | Method | Path          | Description               |
 | ------ | ------------- | ------------------------- |
 | GET    | `/api/health` | Returns server health status |
+
+## RAG Document Ingestion
+
+The app can answer questions about your own PDF documents. The first step is ingestion: reading the PDFs and splitting them into small pieces ("chunks") that can later be embedded and searched.
+
+1. Put your PDFs in `docs/` (see [docs/README.md](docs/README.md) for what to put there).
+2. Run:
+
+   ```bash
+   npm run ingest
+   ```
+
+Each chunk keeps its source file and page number, so answers can cite where the information came from.
+
+### Parameters and why they are set this way
+
+| Parameter | Value | Where | Why |
+| --------- | ----- | ----- | --- |
+| Chunk size | 500 words | `CHUNK_SIZE_WORDS` in `server/rag/chunk.ts` | Small chunks lose the surrounding context; large chunks mix several topics into one embedding and make search less precise |
+| Chunk overlap | 50 words | `CHUNK_OVERLAP_WORDS` in `server/rag/chunk.ts` | Keeps a sentence that crosses a chunk boundary whole in at least one chunk |
+| Minimum page size | 20 words | `MIN_PAGE_WORDS` in `server/rag/ingest.ts` | Covers, separators and near-blank pages cannot answer anything and only add noise to the index |
+
+Chunks never span two pages. This keeps the page number in a citation exact, at the cost of splitting an idea that continues on the next page.
+
+These values are starting points, not tuned settings. They are meant to be measured and adjusted once the evaluation is in place.
 
 ## Setting Up the GitHub CLI (`gh`)
 
